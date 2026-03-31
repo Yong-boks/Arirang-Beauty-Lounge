@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Arirang Beauty Lounge</string>
+    <string name="role_customer">Customer</string>
+    <string name="role_staff">Staff</string>
+    <string name="role_owner">Owner</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Register</string>
+    <string name="btn_logout">Logout</string>
+</resources>
