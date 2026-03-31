@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1001528312951",
+    "project_id": "beauty-lounge-7360c",
+    "storage_bucket": "beauty-lounge-7360c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001528312951:android:3053dabd38781ceb873272",
+        "android_client_info": {
+          "package_name": "com.arirang.beautylounge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRLgOa3p9Oeo3Eb4CTHsItE2C-IUXRMrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
