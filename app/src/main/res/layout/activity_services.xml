@@ -73,17 +73,32 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Haircut" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="From R150" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 1,000" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Hair Color" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="From R300" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 3,000" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Blowout" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R120" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 1,200" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Braids - Short" android:textColor="@color/colorBlack" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 1,500" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Braids - Medium" android:textColor="@color/colorBlack" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 2,000" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Braids - Long" android:textColor="@color/colorBlack" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 2,500" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -114,17 +129,32 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Manicure" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R80" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 1,000" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Pedicure" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R100" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 1,200" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Gel Nails" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R150" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 2,000" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Acrylics" android:textColor="@color/colorBlack" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 2,500" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Gem Gel" android:textColor="@color/colorBlack" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 3,000" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Nail Art (per finger)" android:textColor="@color/colorBlack" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 300" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -155,12 +185,12 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Basic Facial" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R200" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 1,500" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Deep Cleansing Facial" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R300" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 2,500" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -190,13 +220,23 @@
                     android:layout_marginBottom="10dp" />
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Full Glam Makeup" android:textColor="@color/colorBlack" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 2,500" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Soft Makeup" android:textColor="@color/colorBlack" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 1,500" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Bridal Makeup" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R600" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 3,500" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Party Makeup" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R350" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 2,000" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -227,15 +267,27 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Swedish Massage" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R300/hr" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 2,000" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorLightGrey" android:layout_marginVertical="6dp"/>
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Deep Tissue Massage" android:textColor="@color/colorBlack" android:textSize="14sp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R350/hr" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="KES 2,500" android:textColor="@color/colorPrimary" android:textStyle="bold" android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <!-- Book Appointment Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBookAppointment"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:text="📅 Book an Appointment"
+            android:textSize="16sp"
+            android:textColor="@color/colorWhite"
+            app:cornerRadius="12dp"
+            app:backgroundTint="@color/colorPrimary" />
 
     </LinearLayout>
 </ScrollView>

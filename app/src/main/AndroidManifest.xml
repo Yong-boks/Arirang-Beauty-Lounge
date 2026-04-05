@@ -31,6 +31,8 @@
         <activity android:name=".OwnerDashboardActivity" android:exported="false" />
         <activity android:name=".ChatbotActivity" android:exported="false" />
         <activity android:name=".ServicesActivity" android:exported="false" />
+        <activity android:name=".BookingActivity" android:exported="false" />
+        <activity android:name=".MyBookingsActivity" android:exported="false" />
 
     </application>
 </manifest>
