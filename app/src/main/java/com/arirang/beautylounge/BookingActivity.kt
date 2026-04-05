@@ -61,25 +61,27 @@ class BookingActivity : AppCompatActivity() {
     )
 
     private val allStaff = listOf(
-        StaffMember("EMP001", "Amara Njeri", "EMP001",
+        // staffId: Firestore document ID used for booking lookups
+        // employeeId: Human-readable display ID shown to customers
+        StaffMember("STAFF_EMP001", "Amara Njeri", "EMP001",
             listOf("Hair Services"), "Senior Hair Stylist"),
-        StaffMember("EMP002", "Fatuma Wanjiku", "EMP002",
+        StaffMember("STAFF_EMP002", "Fatuma Wanjiku", "EMP002",
             listOf("Nail Care"), "Nail Technician"),
-        StaffMember("EMP003", "Zara Akinyi", "EMP003",
+        StaffMember("STAFF_EMP003", "Zara Akinyi", "EMP003",
             listOf("Makeup"), "Makeup Artist"),
-        StaffMember("EMP004", "Imani Chebet", "EMP004",
+        StaffMember("STAFF_EMP004", "Imani Chebet", "EMP004",
             listOf("Massage"), "Massage Therapist"),
-        StaffMember("EMP005", "Naomi Kamau", "EMP005",
+        StaffMember("STAFF_EMP005", "Naomi Kamau", "EMP005",
             listOf("Facial Treatment"), "Facial Specialist"),
-        StaffMember("EMP006", "Yemi Odhiambo", "EMP006",
+        StaffMember("STAFF_EMP006", "Yemi Odhiambo", "EMP006",
             listOf("Hair Services"), "Hair Stylist"),
-        StaffMember("EMP007", "Kendi Mwangi", "EMP007",
+        StaffMember("STAFF_EMP007", "Kendi Mwangi", "EMP007",
             listOf("Nail Care"), "Nail Artist"),
-        StaffMember("EMP008", "Talia Otieno", "EMP008",
+        StaffMember("STAFF_EMP008", "Talia Otieno", "EMP008",
             listOf("Makeup", "Facial Treatment"), "Beauty Expert"),
-        StaffMember("EMP009", "Sasha Kimani", "EMP009",
+        StaffMember("STAFF_EMP009", "Sasha Kimani", "EMP009",
             listOf("Massage", "Facial Treatment"), "Wellness Therapist"),
-        StaffMember("EMP010", "Grace Wambua", "EMP010",
+        StaffMember("STAFF_EMP010", "Grace Wambua", "EMP010",
             listOf("Hair Services", "Nail Care", "Makeup"), "Multi-Specialist")
     )
 
@@ -315,7 +317,7 @@ class BookingActivity : AppCompatActivity() {
                 if (index <= currentStep)
                     ContextCompat.getColor(this, R.color.colorWhite)
                 else
-                    ContextCompat.getColor(this, R.color.colorAccent)
+                    android.graphics.Color.parseColor("#88FFFFFF")
             )
         }
 
