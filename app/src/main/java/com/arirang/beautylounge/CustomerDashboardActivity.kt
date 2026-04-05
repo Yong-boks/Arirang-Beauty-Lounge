@@ -43,7 +43,7 @@ class CustomerDashboardActivity : AppCompatActivity() {
         }
 
         binding.btnMyBookings.setOnClickListener {
-            Toast.makeText(this, "My Bookings - Coming Soon!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MyBookingsActivity::class.java))
         }
 
         binding.btnChatbot.setOnClickListener {
