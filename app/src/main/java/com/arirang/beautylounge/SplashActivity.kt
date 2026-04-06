@@ -20,6 +20,9 @@ class SplashActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
+        // Auto-register staff members in the background on first launch
+        StaffInitializer.initializeStaff(this)
+
         Handler(Looper.getMainLooper()).postDelayed({
             checkAuthState()
         }, 2000)
