@@ -34,20 +34,25 @@ class StaffDashboardActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val name = document.getString("name") ?: "Staff"
-                    val employeeId = document.getString("employeeId") ?: "N/A"
+                    val employeeId = document.getString("employeeId")
                     binding.tvWelcome.text = "Welcome, $name!"
+                    if (employeeId == null) {
+                        binding.tvScheduleInfo.text = "Employee profile incomplete"
+                        binding.tvCustomerCount.text = "Employee profile incomplete"
+                        return@addOnSuccessListener
+                    }
                     binding.tvEmployeeId.text = "Employee ID: $employeeId"
+                    loadTodaySchedule(employeeId)
                 }
             }
-        loadTodaySchedule(uid)
     }
 
-    private fun loadTodaySchedule(uid: String) {
+    private fun loadTodaySchedule(employeeId: String) {
         val sdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
         val todayStr = sdf.format(Calendar.getInstance().time)
 
         db.collection("bookings")
-            .whereEqualTo("staffId", uid)
+            .whereEqualTo("staffId", employeeId)
             .whereEqualTo("date", todayStr)
             .get()
             .addOnSuccessListener { documents ->
@@ -69,7 +74,7 @@ class StaffDashboardActivity : AppCompatActivity() {
             }
 
         db.collection("bookings")
-            .whereEqualTo("staffId", uid)
+            .whereEqualTo("staffId", employeeId)
             .get()
             .addOnSuccessListener { documents ->
                 val uniqueCustomers = documents.mapNotNull { it.getString("customerId") }.toSet().size

@@ -45,6 +45,25 @@ class ManageScheduleActivity : AppCompatActivity() {
         binding.rvSchedule.visibility = View.GONE
         binding.layoutEmpty.visibility = View.GONE
 
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener { userDoc ->
+                val employeeId = userDoc.getString("employeeId")
+                if (employeeId == null) {
+                    binding.progressBar.visibility = View.GONE
+                    binding.layoutEmpty.visibility = View.VISIBLE
+                    binding.tvScheduleSummary.text = "Employee profile incomplete"
+                    return@addOnSuccessListener
+                }
+                loadUpcomingScheduleForEmployee(employeeId)
+            }
+            .addOnFailureListener {
+                binding.progressBar.visibility = View.GONE
+                binding.layoutEmpty.visibility = View.VISIBLE
+                binding.tvScheduleSummary.text = "Could not load schedule"
+            }
+    }
+
+    private fun loadUpcomingScheduleForEmployee(employeeId: String) {
         // Generate date strings for next 14 days
         val sdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
         val cal = Calendar.getInstance()
@@ -55,7 +74,7 @@ class ManageScheduleActivity : AppCompatActivity() {
         }
 
         db.collection("bookings")
-            .whereEqualTo("staffId", uid)
+            .whereEqualTo("staffId", employeeId)
             .get()
             .addOnSuccessListener { documents ->
                 binding.progressBar.visibility = View.GONE

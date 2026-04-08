@@ -42,8 +42,27 @@ class StaffCustomersActivity : AppCompatActivity() {
         binding.rvCustomers.visibility = View.GONE
         binding.layoutEmpty.visibility = View.GONE
 
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener { userDoc ->
+                val employeeId = userDoc.getString("employeeId")
+                if (employeeId == null) {
+                    binding.progressBar.visibility = View.GONE
+                    binding.layoutEmpty.visibility = View.VISIBLE
+                    binding.tvCustomerSummary.text = "Employee profile incomplete"
+                    return@addOnSuccessListener
+                }
+                loadCustomersForEmployee(employeeId)
+            }
+            .addOnFailureListener {
+                binding.progressBar.visibility = View.GONE
+                binding.layoutEmpty.visibility = View.VISIBLE
+                binding.tvCustomerSummary.text = "Could not load customers"
+            }
+    }
+
+    private fun loadCustomersForEmployee(employeeId: String) {
         db.collection("bookings")
-            .whereEqualTo("staffId", uid)
+            .whereEqualTo("staffId", employeeId)
             .get()
             .addOnSuccessListener { documents ->
                 binding.progressBar.visibility = View.GONE
