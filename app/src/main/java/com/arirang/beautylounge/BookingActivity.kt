@@ -357,7 +357,7 @@ class BookingActivity : AppCompatActivity() {
             "serviceId" to service.id,
             "serviceName" to service.name,
             "serviceCategory" to service.category,
-            "staffId" to staff.staffId,
+            "staffId" to staff.employeeId,
             "staffName" to staff.name,
             "date" to selectedDate,
             "time" to selectedTime,
