@@ -2,11 +2,13 @@ package com.arirang.beautylounge
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.arirang.beautylounge.databinding.ActivityStaffDashboardBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class StaffDashboardActivity : AppCompatActivity() {
 
@@ -41,16 +43,25 @@ class StaffDashboardActivity : AppCompatActivity() {
     }
 
     private fun loadTodaySchedule(uid: String) {
-        db.collection("schedules").document(uid).get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val tasks = document.get("tasks") as? List<String> ?: emptyList()
-                    binding.tvScheduleInfo.text = if (tasks.isEmpty())
-                        "No tasks scheduled for today"
-                    else
-                        tasks.joinToString("\n• ", "• ")
-                } else {
-                    binding.tvScheduleInfo.text = "No schedule found for today"
+        val sdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
+        val todayStr = sdf.format(Calendar.getInstance().time)
+
+        db.collection("bookings")
+            .whereEqualTo("staffId", uid)
+            .whereEqualTo("date", todayStr)
+            .get()
+            .addOnSuccessListener { documents ->
+                val count = documents.size()
+                binding.tvScheduleInfo.text = if (count == 0)
+                    "No appointments scheduled for today"
+                else {
+                    val lines = documents.mapNotNull { doc ->
+                        val time = doc.getString("time") ?: return@mapNotNull null
+                        val service = doc.getString("serviceName") ?: ""
+                        val customer = doc.getString("customerName") ?: ""
+                        "$time — $service ($customer)"
+                    }.sorted()
+                    lines.joinToString("\n• ", "• ")
                 }
             }
             .addOnFailureListener {
@@ -61,8 +72,8 @@ class StaffDashboardActivity : AppCompatActivity() {
             .whereEqualTo("staffId", uid)
             .get()
             .addOnSuccessListener { documents ->
-                val count = documents.size()
-                binding.tvCustomerCount.text = "$count customer(s) assigned today"
+                val uniqueCustomers = documents.mapNotNull { it.getString("customerId") }.toSet().size
+                binding.tvCustomerCount.text = "$uniqueCustomers unique customer(s) assigned"
             }
             .addOnFailureListener {
                 binding.tvCustomerCount.text = "Could not load customer data"
@@ -71,15 +82,15 @@ class StaffDashboardActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.btnViewSchedule.setOnClickListener {
-            Toast.makeText(this, "Schedule Management - Coming Soon!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, ManageScheduleActivity::class.java))
         }
 
         binding.btnViewCustomers.setOnClickListener {
-            Toast.makeText(this, "Customer List - Coming Soon!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, StaffCustomersActivity::class.java))
         }
 
         binding.btnMyDuties.setOnClickListener {
-            Toast.makeText(this, "My Duties - Coming Soon!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MyDutiesActivity::class.java))
         }
 
         binding.btnLogout.setOnClickListener {
@@ -94,3 +105,4 @@ class StaffDashboardActivity : AppCompatActivity() {
         // Prevent going back from dashboard
     }
 }
+

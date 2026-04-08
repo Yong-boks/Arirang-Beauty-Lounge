@@ -26,3 +26,8 @@ replay_pid*
 # Gradle build cache
 .gradle/
 build/
+
+# Gradle wrapper scripts (auto-generated during local build)
+gradlew
+gradlew.bat
+gradle/wrapper/gradle-wrapper.jar

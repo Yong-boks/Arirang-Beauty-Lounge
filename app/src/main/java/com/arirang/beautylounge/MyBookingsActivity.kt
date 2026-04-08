@@ -3,11 +3,14 @@ package com.arirang.beautylounge
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arirang.beautylounge.databinding.ActivityMyBookingsBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Date
 
 class MyBookingsActivity : AppCompatActivity() {
 
@@ -15,8 +18,10 @@ class MyBookingsActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
-    private val bookingsList = mutableListOf<Booking>()
+    private val allBookings = mutableListOf<Booking>()
+    private val filteredBookings = mutableListOf<Booking>()
     private lateinit var bookingAdapter: BookingAdapter
+    private var currentFilter = "All"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +35,7 @@ class MyBookingsActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         setupRecyclerView()
+        setupFilterChips()
         loadBookings()
 
         binding.btnNewBooking.setOnClickListener {
@@ -38,9 +44,35 @@ class MyBookingsActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        bookingAdapter = BookingAdapter(bookingsList)
+        bookingAdapter = BookingAdapter(filteredBookings) { booking ->
+            confirmCancelBooking(booking)
+        }
         binding.rvBookings.layoutManager = LinearLayoutManager(this)
         binding.rvBookings.adapter = bookingAdapter
+    }
+
+    private fun setupFilterChips() {
+        binding.chipAll.setOnClickListener { applyFilter("All") }
+        binding.chipUpcoming.setOnClickListener { applyFilter("Confirmed") }
+        binding.chipCompleted.setOnClickListener { applyFilter("Completed") }
+        binding.chipCancelled.setOnClickListener { applyFilter("Cancelled") }
+    }
+
+    private fun applyFilter(filter: String) {
+        currentFilter = filter
+        filteredBookings.clear()
+        filteredBookings.addAll(
+            if (filter == "All") allBookings
+            else allBookings.filter { it.status == filter }
+        )
+        if (filteredBookings.isEmpty()) {
+            binding.layoutEmpty.visibility = View.VISIBLE
+            binding.rvBookings.visibility = View.GONE
+        } else {
+            binding.layoutEmpty.visibility = View.GONE
+            binding.rvBookings.visibility = View.VISIBLE
+        }
+        bookingAdapter.notifyDataSetChanged()
     }
 
     private fun loadBookings() {
@@ -55,11 +87,11 @@ class MyBookingsActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { documents ->
                 binding.progressBar.visibility = View.GONE
-                bookingsList.clear()
+                allBookings.clear()
 
                 for (doc in documents) {
                     val booking = Booking(
-                        bookingId = doc.getString("bookingId") ?: "",
+                        bookingId = doc.getString("bookingId") ?: doc.id,
                         customerId = doc.getString("customerId") ?: "",
                         customerName = doc.getString("customerName") ?: "",
                         serviceId = doc.getString("serviceId") ?: "",
@@ -75,19 +107,11 @@ class MyBookingsActivity : AppCompatActivity() {
                         status = doc.getString("status") ?: "Confirmed",
                         createdAt = doc.getLong("createdAt") ?: 0L
                     )
-                    bookingsList.add(booking)
+                    allBookings.add(booking)
                 }
 
-                bookingsList.sortByDescending { it.createdAt }
-
-                if (bookingsList.isEmpty()) {
-                    binding.layoutEmpty.visibility = View.VISIBLE
-                    binding.rvBookings.visibility = View.GONE
-                } else {
-                    binding.layoutEmpty.visibility = View.GONE
-                    binding.rvBookings.visibility = View.VISIBLE
-                    bookingAdapter.notifyDataSetChanged()
-                }
+                allBookings.sortByDescending { it.createdAt }
+                applyFilter(currentFilter)
             }
             .addOnFailureListener {
                 binding.progressBar.visibility = View.GONE
@@ -95,8 +119,50 @@ class MyBookingsActivity : AppCompatActivity() {
             }
     }
 
+    private fun confirmCancelBooking(booking: Booking) {
+        AlertDialog.Builder(this)
+            .setTitle("Cancel Booking")
+            .setMessage("Are you sure you want to cancel your ${booking.serviceName} appointment on ${booking.date}?")
+            .setPositiveButton("Yes, Cancel") { _, _ -> cancelBooking(booking) }
+            .setNegativeButton("Keep Booking", null)
+            .show()
+    }
+
+    private fun cancelBooking(booking: Booking) {
+        if (booking.bookingId.isEmpty()) {
+            Toast.makeText(this, "Unable to cancel: booking ID not found", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        db.collection("bookings").document(booking.bookingId)
+            .update(
+                mapOf(
+                    "status" to "Cancelled",
+                    "updatedAt" to Date()
+                )
+            )
+            .addOnSuccessListener {
+                Toast.makeText(this, "Booking cancelled successfully", Toast.LENGTH_SHORT).show()
+                // Update local list
+                val idx = allBookings.indexOfFirst { it.bookingId == booking.bookingId }
+                if (idx >= 0) {
+                    allBookings[idx] = allBookings[idx].copy(status = "Cancelled")
+                    applyFilter(currentFilter)
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to cancel booking: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return true
     }
+
+    override fun onResume() {
+        super.onResume()
+        loadBookings()
+    }
 }
+

@@ -2,7 +2,6 @@ package com.arirang.beautylounge
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.arirang.beautylounge.databinding.ActivityCustomerDashboardBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -51,7 +50,7 @@ class CustomerDashboardActivity : AppCompatActivity() {
         }
 
         binding.btnMyProfile.setOnClickListener {
-            Toast.makeText(this, "My Profile - Coming Soon!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MyProfileActivity::class.java))
         }
 
         binding.btnLogout.setOnClickListener {

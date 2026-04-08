@@ -33,6 +33,10 @@
         <activity android:name=".ServicesActivity" android:exported="false" />
         <activity android:name=".BookingActivity" android:exported="false" />
         <activity android:name=".MyBookingsActivity" android:exported="false" />
+        <activity android:name=".MyProfileActivity" android:exported="false" />
+        <activity android:name=".StaffCustomersActivity" android:exported="false" />
+        <activity android:name=".MyDutiesActivity" android:exported="false" />
+        <activity android:name=".ManageScheduleActivity" android:exported="false" />
 
     </application>
 </manifest>
