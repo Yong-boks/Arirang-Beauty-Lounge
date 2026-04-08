@@ -48,12 +48,29 @@ class MyDutiesActivity : AppCompatActivity() {
         binding.rvSchedule.visibility = View.GONE
         binding.layoutEmpty.visibility = View.GONE
 
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener { userDoc ->
+                val employeeId = userDoc.getString("employeeId")
+                if (employeeId == null) {
+                    binding.progressBar.visibility = View.GONE
+                    binding.layoutEmpty.visibility = View.VISIBLE
+                    return@addOnSuccessListener
+                }
+                loadTodayScheduleForEmployee(employeeId)
+            }
+            .addOnFailureListener {
+                binding.progressBar.visibility = View.GONE
+                binding.layoutEmpty.visibility = View.VISIBLE
+            }
+    }
+
+    private fun loadTodayScheduleForEmployee(employeeId: String) {
         // Today's date formatted the same way bookings are stored
         val sdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
         val todayStr = sdf.format(Calendar.getInstance().time)
 
         db.collection("bookings")
-            .whereEqualTo("staffId", uid)
+            .whereEqualTo("staffId", employeeId)
             .whereEqualTo("date", todayStr)
             .get()
             .addOnSuccessListener { documents ->
