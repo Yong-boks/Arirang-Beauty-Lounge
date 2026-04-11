@@ -2,6 +2,7 @@ package com.arirang.beautylounge
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arirang.beautylounge.databinding.ActivityMyDutiesBinding
@@ -34,7 +35,7 @@ class MyDutiesActivity : AppCompatActivity() {
         val sdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
         binding.tvTodayDate.text = sdf.format(Calendar.getInstance().time)
 
-        adapter = StaffScheduleAdapter(scheduleList)
+        adapter = StaffScheduleAdapter(scheduleList) { booking -> markAsCompleted(booking) }
         binding.rvSchedule.layoutManager = LinearLayoutManager(this)
         binding.rvSchedule.adapter = adapter
 
@@ -116,6 +117,23 @@ class MyDutiesActivity : AppCompatActivity() {
             .addOnFailureListener {
                 binding.progressBar.visibility = View.GONE
                 binding.layoutEmpty.visibility = View.VISIBLE
+            }
+    }
+
+    private fun markAsCompleted(booking: Booking) {
+        if (booking.bookingId.isEmpty()) return
+        db.collection("bookings").document(booking.bookingId)
+            .update("status", "Completed")
+            .addOnSuccessListener {
+                Toast.makeText(this, "Booking marked as completed", Toast.LENGTH_SHORT).show()
+                val idx = scheduleList.indexOfFirst { it.bookingId == booking.bookingId }
+                if (idx >= 0) {
+                    scheduleList[idx] = scheduleList[idx].copy(status = "Completed")
+                    adapter.notifyItemChanged(idx)
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to update: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 
