@@ -23,11 +23,13 @@ class StaffSelectionAdapter(
     override fun onBindViewHolder(holder: StaffViewHolder, position: Int) {
         holder.bind(staffList[position], position == selectedPosition)
         holder.itemView.setOnClickListener {
+            val pos = holder.bindingAdapterPosition
+            if (pos == RecyclerView.NO_POSITION) return@setOnClickListener
             val previousSelected = selectedPosition
-            selectedPosition = holder.adapterPosition
+            selectedPosition = pos
             notifyItemChanged(previousSelected)
             notifyItemChanged(selectedPosition)
-            onStaffSelected(staffList[holder.adapterPosition])
+            onStaffSelected(staffList[pos])
         }
     }
 

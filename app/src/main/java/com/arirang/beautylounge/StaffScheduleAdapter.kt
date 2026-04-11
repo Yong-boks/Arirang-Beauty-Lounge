@@ -1,12 +1,15 @@
 package com.arirang.beautylounge
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arirang.beautylounge.databinding.ItemScheduleBinding
 
-class StaffScheduleAdapter(private val bookings: List<Booking>) :
-    RecyclerView.Adapter<StaffScheduleAdapter.ScheduleViewHolder>() {
+class StaffScheduleAdapter(
+    private val bookings: List<Booking>,
+    private val onMarkComplete: ((Booking) -> Unit)? = null
+) : RecyclerView.Adapter<StaffScheduleAdapter.ScheduleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
         val binding = ItemScheduleBinding.inflate(
@@ -16,7 +19,7 @@ class StaffScheduleAdapter(private val bookings: List<Booking>) :
     }
 
     override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
-        holder.bind(bookings[position])
+        holder.bind(bookings[position], onMarkComplete)
     }
 
     override fun getItemCount() = bookings.size
@@ -24,7 +27,7 @@ class StaffScheduleAdapter(private val bookings: List<Booking>) :
     class ScheduleViewHolder(private val binding: ItemScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(booking: Booking) {
+        fun bind(booking: Booking, onMarkComplete: ((Booking) -> Unit)?) {
             binding.tvScheduleService.text = booking.serviceName
             binding.tvScheduleCustomer.text = booking.customerName
             binding.tvScheduleTime.text = booking.time
@@ -47,6 +50,14 @@ class StaffScheduleAdapter(private val bookings: List<Booking>) :
                     binding.tvScheduleStatus.setTextColor(0xFF2E7D32.toInt())
                     binding.tvScheduleStatus.setBackgroundColor(0xFFE8F5E9.toInt())
                 }
+            }
+
+            // Show "Mark Complete" only for confirmed bookings when callback provided
+            if (onMarkComplete != null && booking.status == "Confirmed") {
+                binding.btnMarkComplete.visibility = View.VISIBLE
+                binding.btnMarkComplete.setOnClickListener { onMarkComplete(booking) }
+            } else {
+                binding.btnMarkComplete.visibility = View.GONE
             }
         }
     }

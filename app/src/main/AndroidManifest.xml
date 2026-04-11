@@ -37,6 +37,8 @@
         <activity android:name=".StaffCustomersActivity" android:exported="false" />
         <activity android:name=".MyDutiesActivity" android:exported="false" />
         <activity android:name=".ManageScheduleActivity" android:exported="false" />
+        <activity android:name=".OwnerAllBookingsActivity" android:exported="false" />
+        <activity android:name=".OwnerManageStaffActivity" android:exported="false" />
 
     </application>
 </manifest>

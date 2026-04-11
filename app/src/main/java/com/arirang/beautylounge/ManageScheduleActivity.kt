@@ -2,6 +2,7 @@ package com.arirang.beautylounge
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arirang.beautylounge.databinding.ActivityManageScheduleBinding
@@ -31,7 +32,7 @@ class ManageScheduleActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-        adapter = StaffScheduleAdapter(scheduleList)
+        adapter = StaffScheduleAdapter(scheduleList) { booking -> markAsCompleted(booking) }
         binding.rvSchedule.layoutManager = LinearLayoutManager(this)
         binding.rvSchedule.adapter = adapter
 
@@ -110,13 +111,13 @@ class ManageScheduleActivity : AppCompatActivity() {
                     try {
                         val dateA = sdf.parse(a.date)?.time ?: 0L
                         val dateB = sdf.parse(b.date)?.time ?: 0L
-                        if (dateA != dateB) return@Comparator (dateA - dateB).toInt()
+                        if (dateA != dateB) return@Comparator dateA.compareTo(dateB)
                     } catch (e: Exception) { /* fall through to time comparison */ }
                     try {
                         val timeSdf = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
                         val timeA = timeSdf.parse(a.time)?.time ?: 0L
                         val timeB = timeSdf.parse(b.time)?.time ?: 0L
-                        (timeA - timeB).toInt()
+                        timeA.compareTo(timeB)
                     } catch (e: Exception) { 0 }
                 })
 
@@ -139,6 +140,23 @@ class ManageScheduleActivity : AppCompatActivity() {
                 binding.progressBar.visibility = View.GONE
                 binding.layoutEmpty.visibility = View.VISIBLE
                 binding.tvScheduleSummary.text = "Could not load schedule"
+            }
+    }
+
+    private fun markAsCompleted(booking: Booking) {
+        if (booking.bookingId.isEmpty()) return
+        db.collection("bookings").document(booking.bookingId)
+            .update("status", "Completed")
+            .addOnSuccessListener {
+                Toast.makeText(this, "Booking marked as completed", Toast.LENGTH_SHORT).show()
+                val idx = scheduleList.indexOfFirst { it.bookingId == booking.bookingId }
+                if (idx >= 0) {
+                    scheduleList[idx] = scheduleList[idx].copy(status = "Completed")
+                    adapter.notifyItemChanged(idx)
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to update: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 

@@ -2,7 +2,6 @@ package com.arirang.beautylounge
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.arirang.beautylounge.databinding.ActivityOwnerDashboardBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -59,23 +58,23 @@ class OwnerDashboardActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.btnManageStaff.setOnClickListener {
-            Toast.makeText(this, "Staff Management - Coming Soon!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, OwnerManageStaffActivity::class.java))
         }
 
         binding.btnViewAllBookings.setOnClickListener {
-            Toast.makeText(this, "All Bookings - Coming Soon!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, OwnerAllBookingsActivity::class.java))
         }
 
         binding.btnInventory.setOnClickListener {
-            Toast.makeText(this, "Inventory Management - Coming Soon!", Toast.LENGTH_SHORT).show()
+            android.widget.Toast.makeText(this, "Inventory Management - Coming Soon!", android.widget.Toast.LENGTH_SHORT).show()
         }
 
         binding.btnReports.setOnClickListener {
-            Toast.makeText(this, "Reports & Analytics - Coming Soon!", Toast.LENGTH_SHORT).show()
+            android.widget.Toast.makeText(this, "Reports & Analytics - Coming Soon!", android.widget.Toast.LENGTH_SHORT).show()
         }
 
         binding.btnManageSchedules.setOnClickListener {
-            Toast.makeText(this, "Schedule Management - Coming Soon!", Toast.LENGTH_SHORT).show()
+            android.widget.Toast.makeText(this, "Schedule Management - Coming Soon!", android.widget.Toast.LENGTH_SHORT).show()
         }
 
         binding.btnLogout.setOnClickListener {

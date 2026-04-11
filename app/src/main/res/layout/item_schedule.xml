@@ -112,5 +112,17 @@
                 android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMarkComplete"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:text="✓ Mark as Completed"
+            android:textSize="13sp"
+            android:textColor="@color/colorWhite"
+            app:backgroundTint="#1565C0"
+            app:cornerRadius="8dp"
+            android:visibility="gone" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
