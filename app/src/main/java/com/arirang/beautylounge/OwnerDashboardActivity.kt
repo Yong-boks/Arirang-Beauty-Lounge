@@ -58,7 +58,7 @@ class OwnerDashboardActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.btnManageStaff.setOnClickListener {
-            startActivity(Intent(this, OwnerManageStaffActivity::class.java))
+            android.widget.Toast.makeText(this, "Staff Management - Coming Soon!", android.widget.Toast.LENGTH_SHORT).show()
         }
 
         binding.btnViewAllBookings.setOnClickListener {

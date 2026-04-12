@@ -100,7 +100,7 @@ class MyDutiesActivity : AppCompatActivity() {
                 }
 
                 // Parse times for correct chronological ordering ("08:00 AM", "09:30 AM", etc.)
-                val timeSdf = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                val timeSdf = SimpleDateFormat("h:mm a", Locale.ENGLISH)
                 scheduleList.sortBy { booking ->
                     try { timeSdf.parse(booking.time)?.time ?: 0L } catch (e: Exception) { 0L }
                 }

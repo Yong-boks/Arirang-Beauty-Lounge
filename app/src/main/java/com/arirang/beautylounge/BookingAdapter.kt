@@ -9,7 +9,8 @@ import com.arirang.beautylounge.databinding.ItemBookingBinding
 class BookingAdapter(
     private val bookings: List<Booking>,
     private val onCancelClick: ((Booking) -> Unit)? = null,
-    private val showCustomer: Boolean = false
+    private val showCustomer: Boolean = false,
+    private val onRescheduleClick: ((Booking) -> Unit)? = null
 ) : RecyclerView.Adapter<BookingAdapter.BookingViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookingViewHolder {
@@ -20,7 +21,7 @@ class BookingAdapter(
     }
 
     override fun onBindViewHolder(holder: BookingViewHolder, position: Int) {
-        holder.bind(bookings[position], onCancelClick, showCustomer)
+        holder.bind(bookings[position], onCancelClick, showCustomer, onRescheduleClick)
     }
 
     override fun getItemCount() = bookings.size
@@ -28,7 +29,7 @@ class BookingAdapter(
     class BookingViewHolder(private val binding: ItemBookingBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(booking: Booking, onCancelClick: ((Booking) -> Unit)?, showCustomer: Boolean) {
+        fun bind(booking: Booking, onCancelClick: ((Booking) -> Unit)?, showCustomer: Boolean, onRescheduleClick: ((Booking) -> Unit)? = null) {
             binding.tvBookingService.text = booking.serviceName
             binding.tvBookingCategory.text = booking.serviceCategory
             binding.tvBookingDate.text = booking.date
@@ -62,12 +63,19 @@ class BookingAdapter(
                 }
             }
 
-            // Show cancel button only for confirmed bookings
+            // Show cancel and reschedule buttons only for confirmed bookings
             if (onCancelClick != null && booking.status == "Confirmed") {
                 binding.btnCancelBooking.visibility = View.VISIBLE
                 binding.btnCancelBooking.setOnClickListener { onCancelClick(booking) }
             } else {
                 binding.btnCancelBooking.visibility = View.GONE
+            }
+
+            if (onRescheduleClick != null && booking.status == "Confirmed") {
+                binding.btnRescheduleBooking.visibility = View.VISIBLE
+                binding.btnRescheduleBooking.setOnClickListener { onRescheduleClick(booking) }
+            } else {
+                binding.btnRescheduleBooking.visibility = View.GONE
             }
         }
     }

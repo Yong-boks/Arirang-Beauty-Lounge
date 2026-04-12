@@ -212,18 +212,39 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCancelBooking"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="12dp"
-            android:text="Cancel Booking"
-            android:textSize="13sp"
-            android:textColor="#B71C1C"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="#B71C1C"
-            app:cornerRadius="8dp"
-            android:visibility="gone" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRescheduleBooking"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:text="Reschedule"
+                android:textSize="12sp"
+                android:textColor="#1565C0"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="#1565C0"
+                app:cornerRadius="8dp"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelBooking"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:textSize="12sp"
+                android:textColor="#B71C1C"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="#B71C1C"
+                app:cornerRadius="8dp"
+                android:visibility="gone" />
+        </LinearLayout>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

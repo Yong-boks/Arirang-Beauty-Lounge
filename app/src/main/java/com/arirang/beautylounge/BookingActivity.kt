@@ -349,6 +349,61 @@ class BookingActivity : AppCompatActivity() {
         binding.btnNext.isEnabled = false
         binding.progressBar.visibility = View.VISIBLE
 
+        // Check for scheduling conflicts before saving
+        db.collection("bookings")
+            .whereEqualTo("staffId", staff.employeeId)
+            .whereEqualTo("date", selectedDate)
+            .get()
+            .addOnSuccessListener { documents ->
+                val timeSdf = SimpleDateFormat("h:mm a", Locale.ENGLISH)
+                val selectedStartMins = try {
+                    val cal = Calendar.getInstance()
+                    cal.time = timeSdf.parse(selectedTime)!!
+                    cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE)
+                } catch (e: Exception) { -1 }
+                val selectedEndMins = selectedStartMins + service.durationMax
+
+                var hasConflict = false
+                for (doc in documents) {
+                    val status = doc.getString("status") ?: "Confirmed"
+                    if (status == "Cancelled") continue
+
+                    val bookingTime = doc.getString("time") ?: continue
+                    val bookingDurationMax = (doc.getLong("durationMax") ?: 30L).toInt()
+                    val bookingStartMins = try {
+                        val cal = Calendar.getInstance()
+                        cal.time = timeSdf.parse(bookingTime)!!
+                        cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE)
+                    } catch (e: Exception) { continue }
+                    val bookingEndMins = bookingStartMins + bookingDurationMax
+
+                    // Two intervals overlap if selectedStart < bookingEnd && bookingStart < selectedEnd
+                    if (selectedStartMins < bookingEndMins && bookingStartMins < selectedEndMins) {
+                        hasConflict = true
+                        break
+                    }
+                }
+
+                if (hasConflict) {
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnNext.isEnabled = true
+                    Toast.makeText(
+                        this,
+                        "Staff unavailable at this time – please pick another time or stylist",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    performSave(uid, service, staff)
+                }
+            }
+            .addOnFailureListener {
+                binding.progressBar.visibility = View.GONE
+                binding.btnNext.isEnabled = true
+                Toast.makeText(this, "Could not verify availability. Please try again.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun performSave(uid: String, service: Service, staff: StaffMember) {
         val bookingId = db.collection("bookings").document().id
         val bookingData = hashMapOf(
             "bookingId" to bookingId,

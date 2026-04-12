@@ -114,7 +114,7 @@ class ManageScheduleActivity : AppCompatActivity() {
                         if (dateA != dateB) return@Comparator dateA.compareTo(dateB)
                     } catch (e: Exception) { /* fall through to time comparison */ }
                     try {
-                        val timeSdf = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                        val timeSdf = SimpleDateFormat("h:mm a", Locale.ENGLISH)
                         val timeA = timeSdf.parse(a.time)?.time ?: 0L
                         val timeB = timeSdf.parse(b.time)?.time ?: 0L
                         timeA.compareTo(timeB)
