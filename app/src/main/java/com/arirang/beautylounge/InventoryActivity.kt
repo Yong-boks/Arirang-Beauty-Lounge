@@ -93,10 +93,6 @@ class InventoryActivity : AppCompatActivity() {
     private fun showAddEditDialog(existing: InventoryItem?) {
         val isEdit = existing != null
 
-        val dialogView = layoutInflater.inflate(
-            android.R.layout.simple_list_item_1, null
-        )
-
         // Build a simple form programmatically
         val layout = android.widget.LinearLayout(this).apply {
             orientation = android.widget.LinearLayout.VERTICAL

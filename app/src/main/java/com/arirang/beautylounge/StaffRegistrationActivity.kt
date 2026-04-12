@@ -39,7 +39,7 @@ class StaffRegistrationActivity : AppCompatActivity() {
         val password = binding.etPassword.text.toString().trim()
         val confirmPassword = binding.etConfirmPassword.text.toString().trim()
         val phone = binding.etPhone.text.toString().trim()
-        val employeeId = binding.etEmployeeId.text.toString().trim().uppercase()
+        val employeeId = binding.etEmployeeId.text.toString().trim().uppercase(java.util.Locale.ROOT)
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty() || employeeId.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()

@@ -115,7 +115,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showForgotPasswordDialog() {
         val emailInput = com.google.android.material.textfield.TextInputEditText(this)
-        emailInput.inputType = android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        emailInput.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
         emailInput.hint = "Enter your email address"
 
         val container = android.widget.LinearLayout(this).apply {
