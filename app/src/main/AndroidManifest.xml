@@ -39,6 +39,8 @@
         <activity android:name=".ManageScheduleActivity" android:exported="false" />
         <activity android:name=".OwnerAllBookingsActivity" android:exported="false" />
         <activity android:name=".OwnerManageStaffActivity" android:exported="false" />
+        <activity android:name=".OwnerReportsActivity" android:exported="false" />
+        <activity android:name=".InventoryActivity" android:exported="false" />
 
     </application>
 </manifest>

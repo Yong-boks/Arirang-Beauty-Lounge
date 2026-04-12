@@ -2,6 +2,7 @@ package com.arirang.beautylounge
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.arirang.beautylounge.databinding.ActivityCustomerDashboardBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +21,9 @@ class CustomerDashboardActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+
+        // Prevent navigating back from the dashboard to the login/registration screens
+        onBackPressedDispatcher.addCallback(this) { /* do nothing */ }
 
         loadUserData()
         setupClickListeners()
@@ -58,10 +62,5 @@ class CustomerDashboardActivity : AppCompatActivity() {
             startActivity(Intent(this, RoleSelectionActivity::class.java))
             finishAffinity()
         }
-    }
-
-    @Suppress("DEPRECATION")
-    override fun onBackPressed() {
-        // Prevent going back from dashboard
     }
 }

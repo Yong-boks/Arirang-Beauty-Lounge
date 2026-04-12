@@ -2,8 +2,11 @@ package com.arirang.beautylounge
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.arirang.beautylounge.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -35,8 +38,17 @@ class LoginActivity : AppCompatActivity() {
             navigateToRegistration()
         }
 
+        binding.tvForgotPassword.setOnClickListener {
+            showForgotPasswordDialog()
+        }
+
         binding.tvBackToRoleSelection.setOnClickListener {
             startActivity(Intent(this, RoleSelectionActivity::class.java))
+            finish()
+        }
+
+        onBackPressedDispatcher.addCallback(this) {
+            startActivity(Intent(this@LoginActivity, RoleSelectionActivity::class.java))
             finish()
         }
     }
@@ -59,6 +71,13 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             return
         }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.tilEmail.error = "Please enter a valid email address"
+            binding.tilEmail.requestFocus()
+            return
+        }
+        binding.tilEmail.error = null
 
         binding.progressBar.visibility = View.VISIBLE
         binding.btnLogin.isEnabled = false
@@ -94,6 +113,44 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    private fun showForgotPasswordDialog() {
+        val emailInput = com.google.android.material.textfield.TextInputEditText(this)
+        emailInput.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        emailInput.hint = "Enter your email address"
+
+        val container = android.widget.LinearLayout(this).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            val pad = (16 * resources.displayMetrics.density).toInt()
+            setPadding(pad, pad, pad, 0)
+            addView(emailInput)
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Reset Password")
+            .setMessage("Enter your account email to receive a password reset link.")
+            .setView(container)
+            .setPositiveButton("Send Link") { _, _ ->
+                val email = emailInput.text.toString().trim()
+                if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+                auth.sendPasswordResetEmail(email)
+                    .addOnSuccessListener {
+                        Toast.makeText(
+                            this,
+                            "Password reset link sent to $email",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
     private fun navigateToRegistration() {
         val destination = when (selectedRole) {
             "staff" -> StaffRegistrationActivity::class.java
@@ -106,12 +163,5 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToDashboard(destination: Class<*>) {
         startActivity(Intent(this, destination))
         finishAffinity()
-    }
-
-    @Suppress("DEPRECATION")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity(Intent(this, RoleSelectionActivity::class.java))
-        finish()
     }
 }
