@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arirang.beautylounge.databinding.ActivityOwnerAllBookingsBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class OwnerAllBookingsActivity : AppCompatActivity() {
 
@@ -22,14 +25,14 @@ class OwnerAllBookingsActivity : AppCompatActivity() {
         binding = ActivityOwnerAllBookingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "All Bookings"
+        supportActionBar?.title = "General Schedule"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         db = FirebaseFirestore.getInstance()
 
         setupRecyclerView()
         setupFilterChips()
-        loadAllBookings()
+        loadGeneralSchedule()
     }
 
     private fun setupRecyclerView() {
@@ -62,10 +65,19 @@ class OwnerAllBookingsActivity : AppCompatActivity() {
         bookingAdapter.notifyDataSetChanged()
     }
 
-    private fun loadAllBookings() {
+    private fun loadGeneralSchedule() {
         binding.progressBar.visibility = View.VISIBLE
         binding.rvBookings.visibility = View.GONE
         binding.layoutEmpty.visibility = View.GONE
+
+        // Build set of valid date strings for the next 14 days
+        val sdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
+        val cal = Calendar.getInstance()
+        val validDates = mutableSetOf<String>()
+        for (i in 0..13) {
+            validDates.add(sdf.format(cal.time))
+            cal.add(Calendar.DAY_OF_YEAR, 1)
+        }
 
         db.collection("bookings").get()
             .addOnSuccessListener { documents ->
@@ -73,6 +85,9 @@ class OwnerAllBookingsActivity : AppCompatActivity() {
                 allBookings.clear()
 
                 for (doc in documents) {
+                    val date = doc.getString("date") ?: ""
+                    if (date !in validDates) continue  // only show next 14 days
+
                     val booking = Booking(
                         bookingId = doc.getString("bookingId") ?: doc.id,
                         customerId = doc.getString("customerId") ?: "",
@@ -82,7 +97,7 @@ class OwnerAllBookingsActivity : AppCompatActivity() {
                         serviceCategory = doc.getString("serviceCategory") ?: "",
                         staffId = doc.getString("staffId") ?: "",
                         staffName = doc.getString("staffName") ?: "",
-                        date = doc.getString("date") ?: "",
+                        date = date,
                         time = doc.getString("time") ?: "",
                         price = (doc.getLong("price") ?: 0L).toInt(),
                         durationMin = (doc.getLong("durationMin") ?: 0L).toInt(),
@@ -93,7 +108,22 @@ class OwnerAllBookingsActivity : AppCompatActivity() {
                     allBookings.add(booking)
                 }
 
-                allBookings.sortByDescending { it.createdAt }
+                // Sort by date then time
+                val dateSdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
+                val timeSdf = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                allBookings.sortWith(Comparator { a, b ->
+                    try {
+                        val dateA = dateSdf.parse(a.date)?.time ?: 0L
+                        val dateB = dateSdf.parse(b.date)?.time ?: 0L
+                        if (dateA != dateB) return@Comparator dateA.compareTo(dateB)
+                    } catch (e: Exception) { /* fall through */ }
+                    try {
+                        val timeA = timeSdf.parse(a.time)?.time ?: 0L
+                        val timeB = timeSdf.parse(b.time)?.time ?: 0L
+                        timeA.compareTo(timeB)
+                    } catch (e: Exception) { 0 }
+                })
+
                 applyFilter(currentFilter)
             }
             .addOnFailureListener {
