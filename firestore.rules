@@ -8,17 +8,15 @@ service cloud.firestore {
       allow write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Bookings - customers can read/write their own, staff can read assigned bookings,
-    // any authenticated user can update (for staff marking complete)
+    // Bookings - any authenticated user can read (staff use employeeId not Firebase UID,
+    // so role-based filtering is enforced at the application layer).
+    // Customers can only create bookings for themselves.
+    // Authenticated users can update bookings (cancel, reschedule, mark complete).
     match /bookings/{bookingId} {
-      allow read: if request.auth != null &&
-        (resource.data.customerId == request.auth.uid ||
-         resource.data.staffId != null);
+      allow read: if request.auth != null;
       allow create: if request.auth != null &&
         request.resource.data.customerId == request.auth.uid;
-      allow update: if request.auth != null &&
-        (resource.data.customerId == request.auth.uid ||
-         resource.data.staffId != null);
+      allow update: if request.auth != null;
     }
 
     // Services - all authenticated users can read; writes are restricted

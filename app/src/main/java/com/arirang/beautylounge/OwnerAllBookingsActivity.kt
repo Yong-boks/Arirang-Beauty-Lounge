@@ -110,7 +110,7 @@ class OwnerAllBookingsActivity : AppCompatActivity() {
 
                 // Sort by date then time
                 val dateSdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
-                val timeSdf = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                val timeSdf = SimpleDateFormat("h:mm a", Locale.ENGLISH)
                 allBookings.sortWith(Comparator { a, b ->
                     try {
                         val dateA = dateSdf.parse(a.date)?.time ?: 0L

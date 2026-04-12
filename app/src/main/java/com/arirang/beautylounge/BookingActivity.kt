@@ -355,7 +355,7 @@ class BookingActivity : AppCompatActivity() {
             .whereEqualTo("date", selectedDate)
             .get()
             .addOnSuccessListener { documents ->
-                val timeSdf = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                val timeSdf = SimpleDateFormat("h:mm a", Locale.ENGLISH)
                 val selectedStartMins = try {
                     val cal = Calendar.getInstance()
                     cal.time = timeSdf.parse(selectedTime)!!

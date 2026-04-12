@@ -233,7 +233,7 @@ class MyBookingsActivity : AppCompatActivity() {
     }
 
     private fun checkRescheduleConflictAndSave(booking: Booking, newDate: String, newTime: String) {
-        val timeSdf = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+        val timeSdf = SimpleDateFormat("h:mm a", Locale.ENGLISH)
         val newStartMins = try {
             val cal = Calendar.getInstance()
             cal.time = timeSdf.parse(newTime)!!
