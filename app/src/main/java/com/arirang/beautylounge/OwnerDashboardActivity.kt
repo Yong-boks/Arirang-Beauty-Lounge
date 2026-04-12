@@ -2,6 +2,7 @@ package com.arirang.beautylounge
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.arirang.beautylounge.databinding.ActivityOwnerDashboardBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +21,9 @@ class OwnerDashboardActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+
+        // Prevent navigating back from the dashboard to the login/registration screens
+        onBackPressedDispatcher.addCallback(this) { /* do nothing */ }
 
         loadOwnerData()
         loadStats()
@@ -58,7 +62,7 @@ class OwnerDashboardActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.btnManageStaff.setOnClickListener {
-            android.widget.Toast.makeText(this, "Staff Management - Coming Soon!", android.widget.Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, OwnerManageStaffActivity::class.java))
         }
 
         binding.btnViewAllBookings.setOnClickListener {
@@ -66,15 +70,15 @@ class OwnerDashboardActivity : AppCompatActivity() {
         }
 
         binding.btnInventory.setOnClickListener {
-            android.widget.Toast.makeText(this, "Inventory Management - Coming Soon!", android.widget.Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, InventoryActivity::class.java))
         }
 
         binding.btnReports.setOnClickListener {
-            android.widget.Toast.makeText(this, "Reports & Analytics - Coming Soon!", android.widget.Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, OwnerReportsActivity::class.java))
         }
 
         binding.btnManageSchedules.setOnClickListener {
-            android.widget.Toast.makeText(this, "Schedule Management - Coming Soon!", android.widget.Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, OwnerAllBookingsActivity::class.java))
         }
 
         binding.btnLogout.setOnClickListener {
@@ -82,10 +86,5 @@ class OwnerDashboardActivity : AppCompatActivity() {
             startActivity(Intent(this, RoleSelectionActivity::class.java))
             finishAffinity()
         }
-    }
-
-    @Suppress("DEPRECATION")
-    override fun onBackPressed() {
-        // Prevent going back from dashboard
     }
 }

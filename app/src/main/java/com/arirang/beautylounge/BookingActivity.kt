@@ -209,24 +209,7 @@ class BookingActivity : AppCompatActivity() {
     }
 
     private fun populateTimeSlots(calendar: Calendar) {
-        val isSunday = calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
-        val startHour = if (isSunday) 9 else 8
-        val endHour = if (isSunday) 15 else 18
-
-        val slots = mutableListOf<String>()
-        var h = startHour
-        var m = 0
-        while (h < endHour) {
-            val amPm = if (h < 12) "AM" else "PM"
-            val h12 = when {
-                h == 0 -> 12
-                h > 12 -> h - 12
-                else -> h
-            }
-            slots.add(String.format("%02d:%02d %s", h12, m, amPm))
-            m += 30
-            if (m >= 60) { m = 0; h++ }
-        }
+        val slots = TimeSlotUtils.generateSlots(calendar)
 
         val slotAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, slots)
         slotAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

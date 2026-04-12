@@ -2,6 +2,7 @@ package com.arirang.beautylounge
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -38,10 +39,15 @@ class StaffRegistrationActivity : AppCompatActivity() {
         val password = binding.etPassword.text.toString().trim()
         val confirmPassword = binding.etConfirmPassword.text.toString().trim()
         val phone = binding.etPhone.text.toString().trim()
-        val employeeId = binding.etEmployeeId.text.toString().trim()
+        val employeeId = binding.etEmployeeId.text.toString().trim().uppercase()
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty() || employeeId.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -58,6 +64,57 @@ class StaffRegistrationActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
         binding.btnRegister.isEnabled = false
 
+        // Step 1: Verify the employee ID exists in the staffMembers whitelist
+        db.collection("staffMembers").document(employeeId).get()
+            .addOnSuccessListener { staffDoc ->
+                if (!staffDoc.exists()) {
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnRegister.isEnabled = true
+                    Toast.makeText(
+                        this,
+                        "Employee ID '$employeeId' not found. Please check your ID or contact your manager.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@addOnSuccessListener
+                }
+
+                // Step 2: Check the employee ID is not already registered
+                db.collection("users").whereEqualTo("employeeId", employeeId).get()
+                    .addOnSuccessListener { existingUsers ->
+                        if (!existingUsers.isEmpty) {
+                            binding.progressBar.visibility = View.GONE
+                            binding.btnRegister.isEnabled = true
+                            Toast.makeText(
+                                this,
+                                "An account for Employee ID '$employeeId' already exists. Please log in instead.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            return@addOnSuccessListener
+                        }
+
+                        // Step 3: All checks passed – create the Firebase Auth account
+                        createStaffAccount(name, email, password, phone, employeeId)
+                    }
+                    .addOnFailureListener { e ->
+                        binding.progressBar.visibility = View.GONE
+                        binding.btnRegister.isEnabled = true
+                        Toast.makeText(this, "Verification failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener { e ->
+                binding.progressBar.visibility = View.GONE
+                binding.btnRegister.isEnabled = true
+                Toast.makeText(this, "Could not verify Employee ID: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun createStaffAccount(
+        name: String,
+        email: String,
+        password: String,
+        phone: String,
+        employeeId: String
+    ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener { result ->
                 val uid = result.user?.uid ?: return@addOnSuccessListener
